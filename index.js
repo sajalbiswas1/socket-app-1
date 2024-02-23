@@ -1,17 +1,17 @@
 
 const express = require('express');
 const app = express();
-const port = 3000
-const http = require('http');
-const expressServer = http.createServer(app);
+const port = 5000
 
-
+const { createServer } = require("http");
 const { Server } = require('socket.io')
-const io = new Server(expressServer)
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
 
 
-socket.on('connection', (socket) => {
-    console.log('New User Connect');
+
+io.on('connection', (socket) => {
+    console.log('New User Connect',socket.id);
 
 
     socket.on('disconnect', function () {
@@ -25,6 +25,6 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + "/index.html");
 })
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
